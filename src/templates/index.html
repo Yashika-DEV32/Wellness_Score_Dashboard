@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wellness Score Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; margin: 0; padding: 0; }
+        .container { max-width: 900px; margin: 40px auto; padding: 20px; background-color: #fff; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; text-align: center; }
+        p { text-align: center; color: #555; }
+        form { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        input[type=file] { padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+        input[type=submit] { padding: 10px 20px; border: none; background-color: #2ecc71; color: #fff; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; }
+        input[type=submit]:hover { background-color: #27ae60; }
+        .message { text-align: center; margin-top: 15px; font-weight: bold; color: #2ecc71; }
+        .download { text-align: center; margin-top: 10px; }
+        .download a { text-decoration: none; background-color: #3498db; color: #fff; padding: 8px 16px; border-radius: 6px; transition: 0.3s; }
+        .download a:hover { background-color: #2980b9; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        th, td { padding: 12px 15px; text-align: center; }
+        th { background-color: #2c3e50; color: #fff; font-weight: 500; text-transform: uppercase; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        tr:hover { background-color: #e1f5fe; transition: 0.3s; }
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            th { text-align: right; }
+            td { text-align: right; padding-left: 50%; position: relative; }
+            td::before { content: attr(data-label); position: absolute; left: 10px; width: 45%; font-weight: bold; text-align: left; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Wellness Score Dashboard</h1>
+        <p>Upload a CSV file with columns: <b>sleep_hours, steps, mood</b></p>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <input type="submit" value="Calculate">
+        </form>
+
+        {% if message %}
+            <div class="message">{{ message }}</div>
+        {% endif %}
+
+        {% if download_link %}
+            <div class="download"><a href="/download">Download Scored CSV</a></div>
+        {% endif %}
+
+        {% if rows %}
+            <table>
+                <tr>
+                    <th>Sleep Hours</th>
+                    <th>Steps</th>
+                    <th>Mood</th>
+                    <th>Wellness Score</th>
+                </tr>
+                {% for row in rows %}
+                <tr>
+                    <td data-label="Sleep Hours">{{ row.sleep_hours }}</td>
+                    <td data-label="Steps">{{ row.steps }}</td>
+                    <td data-label="Mood">{{ row.mood }}</td>
+                    <td data-label="Wellness Score">{{ row.wellness_score }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    </div>
+</body>
+</html>
