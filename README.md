@@ -5,7 +5,7 @@ Includes:
 - Streamlit App
 - Flask API
 - Core Algorithm
-- Docs & Tests
+
 
 
 2. Install Dependencies
